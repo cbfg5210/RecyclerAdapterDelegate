@@ -19,6 +19,7 @@ package com.fubaisum.adapterdelegate;
 import java.util.List;
 
 /**
+ * <p>
  * An adapter implementation designed for items organized in a {@link List}. This adapter
  * implementation is ready to go. All you have to do is to add {@link AdapterDelegate}s to the
  * internal {@link AdapterDelegatesManager} i.e. in the constructor:

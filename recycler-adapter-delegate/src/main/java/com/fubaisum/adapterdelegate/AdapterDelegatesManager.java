@@ -27,8 +27,10 @@ import android.view.ViewGroup;
  * So you have to add / register your {@link AdapterDelegate}s to this manager by calling {@link
  * #addDelegate(AdapterDelegate)}
  * </p>
- * <p/>
- * <p/>
+ * <p>
+ * </p>
+ * <p>
+ * </p>
  * Next you have to add this AdapterDelegatesManager to the {@link RecyclerView.Adapter} by calling
  * corresponding methods:
  * <ul>
