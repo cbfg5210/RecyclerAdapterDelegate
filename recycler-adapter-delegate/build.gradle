@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'recycler-adapter-delegate'
+
+    publishedGroupId = 'com.scausum.adapterdelegate'
+    libraryName = 'RecyclerAdapterDelegate'
+    artifact = 'adapterdelegate'
+
+    libraryDescription = 'A handy library for using RecyclerView.'
+    
+    siteUrl = 'https://github.com/fubaisum/RecyclerAdapterDelegate'
+    gitUrl = 'https://github.com/fubaisum/RecyclerAdapterDelegate.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'scausum'
+    developerName = 'SCAU SUM'
+    developerEmail = 'scausum@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    provided 'com.android.support:recyclerview-v7:23.1.1'
+}
+
+apply from: 'http://fubaisum.github.io/installv1.gradle'
+apply from: 'http://fubaisum.github.io/bintrayv1.gradle'
