@@ -9,7 +9,7 @@ ext {
     artifact = 'adapterdelegate'
 
     libraryDescription = 'A handy library for using RecyclerView.'
-    
+
     siteUrl = 'https://github.com/fubaisum/RecyclerAdapterDelegate'
     gitUrl = 'https://github.com/fubaisum/RecyclerAdapterDelegate.git'
 
