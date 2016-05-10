@@ -19,17 +19,19 @@ package com.fubaisum.adapterdelegate;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * An implementation of an Adapter that already uses a {@link AdapterDelegatesManager} and calls
  * the corresponding {@link AdapterDelegatesManager} methods from Adapter's method like {@link
  * #onCreateViewHolder(ViewGroup, int)}, {@link #onBindViewHolder(RecyclerView.ViewHolder, int)}
  * and {@link #getItemViewType(int)}. So everything is already setup for you. You just have to add
- * the {@link AdapterDelegate}s i.e. in the constructor of a subclass that inheritance from this
+ * the {@link AbsAdapterDelegate}s i.e. in the constructor of a subclass that inheritance from this
  * class:
  * <pre>
  * {@code
- *    class MyAdaper extends AbsDelegationAdapter<MyDataSourceType>{
- *        public MyAdaper(){
+ *    class MyAdapter extends AbsDelegationAdapter<MyDataElementType>{
+ *        public MyAdapter(){
  *            this.delegatesManager.add(new FooAdapterDelegate());
  *            this.delegatesManager.add(new BarAdapterDelegate());
  *        }
@@ -37,27 +39,32 @@ import android.view.ViewGroup;
  * }
  * </pre>
  *
- * @param <T> The type of the datasoure / items
+ * @param <T> The type of the data element
  * @author Hannes Dorfmann
  */
-public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter {
+public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     protected AdapterDelegatesManager<T> delegatesManager = new AdapterDelegatesManager<T>();
-    protected T items;
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return delegatesManager.onCreateViewHolder(parent, viewType);
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        delegatesManager.onBindViewHolder(items, position, holder);
-    }
+    protected List<T> items;
 
     @Override
     public int getItemViewType(int position) {
         return delegatesManager.getItemViewType(items, position);
+    }
+
+    @Override
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return delegatesManager.onCreateViewHolder(parent, viewType);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerViewHolder viewHolder, int position) {
+        delegatesManager.onBindViewHolder(viewHolder,items.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return items == null ? 0 : items.size();
     }
 
     /**
@@ -65,7 +72,7 @@ public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter {
      *
      * @return The items / data source
      */
-    public T getItems() {
+    public List<T> getItems() {
         return items;
     }
 
@@ -74,14 +81,14 @@ public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter {
      *
      * @param items The items / data source
      */
-    public void setItems(T items) {
+    public void setItems(List<T> items) {
         this.items = items;
     }
 
     /**
      * @param delegate The concrete AdapterDelegate<T> instance
      */
-    public void addDelegate(AdapterDelegate<T> delegate) {
+    public void addDelegate(AbsAdapterDelegate<T> delegate) {
         delegatesManager.addDelegate(delegate);
     }
 }

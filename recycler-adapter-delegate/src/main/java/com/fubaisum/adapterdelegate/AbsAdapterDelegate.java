@@ -18,41 +18,50 @@ package com.fubaisum.adapterdelegate;
 
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link AdapterDelegate} implementation that already implements {@link
- * #getItemViewType()}
- *
- * @author Hannes Dorfmann
- */
-public abstract class AbsAdapterDelegate<T> implements AdapterDelegate<T> {
+
+public abstract class AbsAdapterDelegate<T> {
 
     protected LayoutInflater layoutInflater;
-    protected int layoutResId;
-    protected int viewType;
+    protected int itemLayoutResId;
+    private int itemViewType;
 
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    public AbsAdapterDelegate(Activity activity, int layoutResId, int viewType) {
+    public AbsAdapterDelegate(Activity activity, int itemLayoutResId) {
         this.layoutInflater = LayoutInflater.from(activity);
-        this.layoutResId = layoutResId;
-        this.viewType = viewType;
+        this.itemLayoutResId = itemLayoutResId;
     }
 
-    @Override
     public int getItemViewType() {
-        return viewType;
+        return itemViewType;
     }
 
-    @Override
-    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
-        View itemView = layoutInflater.inflate(layoutResId, parent, false);
-        final RecyclerView.ViewHolder viewHolder = onCreateViewHolder(itemView);
+    public void setItemViewType(int itemViewType) {
+        this.itemViewType = itemViewType;
+    }
+
+    /**
+     * Called to determine whether this AdapterDelegate is the responsible for the given data element.
+     *
+     * @param item The item of the data set
+     * @return true, if this item is responsible, otherwise false
+     */
+    protected abstract boolean isForViewType(T item);
+
+    /**
+     * Creates the  {@link RecyclerViewHolder} for the given data item
+     *
+     * @param parent The ViewGroup parent of the given data source
+     * @return The new instantiated {@link RecyclerViewHolder}
+     */
+    public final RecyclerViewHolder onCreateViewHolder(ViewGroup parent) {
+        View itemView = layoutInflater.inflate(itemLayoutResId, parent, false);
+        final RecyclerViewHolder viewHolder = onCreateViewHolder(itemView);
         if (null != onItemClickListener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -72,18 +81,39 @@ public abstract class AbsAdapterDelegate<T> implements AdapterDelegate<T> {
         return viewHolder;
     }
 
-    protected abstract RecyclerView.ViewHolder onCreateViewHolder(View itemView);
+    /**
+     * Creates the  {@link RecyclerViewHolder} for the given data item
+     *
+     * @param itemView The view of the given data item
+     * @return The new instantiated {@link RecyclerViewHolder}
+     */
+    protected abstract RecyclerViewHolder onCreateViewHolder(View itemView);
 
+    /**
+     * Called to bind the {@link RecyclerViewHolder} to the item of the data set
+     *
+     * @param holder The {@link RecyclerViewHolder} to bind
+     * @param item   The item of the data set
+     */
+    protected abstract void onBindViewHolder(RecyclerViewHolder holder, T item);
+
+
+    /**
+     * Item Click Listener
+     */
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    public interface OnItemLongClickListener {
-        void onItemLongClick(View view, int position);
-    }
-
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
+    }
+
+    /**
+     * Item Long Click Listener
+     */
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View view, int position);
     }
 
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {

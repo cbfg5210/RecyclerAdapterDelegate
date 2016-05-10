@@ -20,126 +20,51 @@ import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * This class is the element that ties {@link RecyclerView.Adapter} together with {@link
- * AdapterDelegate}.
+ * AbsAdapterDelegate}.
  * <p>
- * So you have to add / register your {@link AdapterDelegate}s to this manager by calling {@link
- * #addDelegate(AdapterDelegate)}
+ * So you have to add / register your {@link AbsAdapterDelegate}s to this manager by calling {@link
+ * #addDelegate(AbsAdapterDelegate)}
  * </p>
- * <p>
- * </p>
- * <p>
- * </p>
- * Next you have to add this AdapterDelegatesManager to the {@link RecyclerView.Adapter} by calling
- * corresponding methods:
- * <ul>
- * <li> {@link #getItemViewType(Object, int)}: Must be called from {@link
- * RecyclerView.Adapter#getItemViewType(int)}</li>
- * <li> {@link #onCreateViewHolder(ViewGroup, int)}: Must be called from {@link
- * RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int)}</li>
- * <li> {@link #onBindViewHolder(Object, int, RecyclerView.ViewHolder)}: Must be called from {@link
- * RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}</li>
- * </ul>
  *
  * @param <T> The type of the datasource of the adapter
  * @author Hannes Dorfmann
  */
-public class AdapterDelegatesManager<T> {
-    /**
-     * Map for ViewType to AdapterDeleage
-     */
-    SparseArrayCompat<AdapterDelegate<T>> delegates = new SparseArrayCompat<AdapterDelegate<T>>();
+class AdapterDelegatesManager<T> {
 
-    /**
-     * Adds an {@link AdapterDelegate}. Internally calls {@link #addDelegate(AdapterDelegate,
-     * boolean)} with false as parameter.
-     *
-     * @param delegate the delegate to add
-     * @return self
-     * @throws IllegalArgumentException if an {@link AdapterDelegate} is already added (registered)
-     *                                  with the same ViewType {@link AdapterDelegate#getItemViewType()}.
-     * @see #addDelegate(AdapterDelegate, boolean)
-     */
-    public AdapterDelegatesManager<T> addDelegate(AdapterDelegate<T> delegate) {
-        return addDelegate(delegate, false);
-    }
+    SparseArrayCompat<AbsAdapterDelegate<T>> delegates = new SparseArrayCompat<AbsAdapterDelegate<T>>();
 
-    /**
-     * Adds an {@link AdapterDelegate}.
-     *
-     * @param delegate               The delegate to add
-     * @param allowReplacingDelegate if true, you allow to replacing the given delegate any previous
-     *                               delegate for the same view type. if false, you disallow and a {@link IllegalArgumentException}
-     *                               will be thrown if you try to replace an already registered {@link AdapterDelegate} for the
-     *                               same view type.
-     * @throws IllegalArgumentException if <b>allowReplacingDelegate</b>  is false and an {@link
-     *                                  AdapterDelegate} is already added (registered)
-     *                                  with the same ViewType {@link AdapterDelegate#getItemViewType()}.
-     * @throws IllegalArgumentException if the {@link AdapterDelegate#getItemViewType()} is the same
-     *                                  as fallback AdapterDelegate one.
-     */
-    public AdapterDelegatesManager<T> addDelegate(
-            AdapterDelegate<T> delegate, boolean allowReplacingDelegate) {
+    public AdapterDelegatesManager<T> addDelegate(AbsAdapterDelegate<T> delegate) {
 
-        int viewType = delegate.getItemViewType();
-        if (!allowReplacingDelegate && delegates.get(viewType) != null) {
-            throw new IllegalArgumentException(
-                    "An AdapterDelegate is already registered for the viewType = " + viewType
-                            + ". Already registered AdapterDelegate is " + delegates.get(viewType));
-        }
-
-        delegates.put(viewType, delegate);
-
+        int itemViewType = delegates.size();
+        delegate.setItemViewType(itemViewType);
+        delegates.put(itemViewType, delegate);
         return this;
     }
 
     /**
-     * Removes a previously registered delegate if and only if the passed delegate is registered
-     * (checks the reference of the object). This will not remove any other delegate for the same
-     * viewType (if there is any).
-     *
-     * @param delegate The delegate to remove
-     * @return self
-     */
-    public AdapterDelegatesManager<T> removeDelegate(AdapterDelegate<T> delegate) {
-
-        AdapterDelegate<T> queried = delegates.get(delegate.getItemViewType());
-        if (queried != null && queried == delegate) {
-            delegates.remove(delegate.getItemViewType());
-        }
-        return this;
-    }
-
-    /**
-     * Removes the adapterDelegate for the given view types.
-     *
-     * @param viewType The Viewtype
-     * @return self
-     */
-    public AdapterDelegatesManager<T> removeDelegate(int viewType) {
-        delegates.remove(viewType);
-        return this;
-    }
-
-    /**
-     * Must be called from {@link RecyclerView.Adapter#getItemViewType(int)}. Internally it scans all
-     * the registered {@link AdapterDelegate} and picks the right one to return the ViewType integer.
+     * Must be called from {@link AbsDelegationAdapter#getItemViewType(int)}. Internally it scans all
+     * the registered {@link AbsAdapterDelegate} and picks the right one to return the ViewType integer.
      *
      * @param items    Adapter's data source
      * @param position the position in adapters data source
      * @return the ViewType (integer)
-     * @throws IllegalArgumentException if no {@link AdapterDelegate} has been found that is
-     *                                  responsible for the given data element in data set (No {@link AdapterDelegate} for the given
-     *                                  ViewType)
+     *
+     * @throws IllegalArgumentException if no {@link AbsAdapterDelegate} has been found that is responsible
+     *         for the given data element in data set (No {@link AbsAdapterDelegate} for the given ViewType)
+     *
      * @throws NullPointerException     if items is null
      */
-    public int getItemViewType(T items, int position) {
+    public int getItemViewType(List<T> items, int position) {
 
         int delegatesCount = delegates.size();
+        AbsAdapterDelegate<T> delegate;
         for (int i = 0; i < delegatesCount; i++) {
-            AdapterDelegate<T> delegate = delegates.valueAt(i);
-            if (delegate.isForViewType(items, position)) {
+            delegate = delegates.valueAt(i);
+            if (delegate.isForViewType(items.get(position))) {
                 return delegate.getItemViewType();
             }
         }
@@ -149,16 +74,15 @@ public class AdapterDelegatesManager<T> {
     }
 
     /**
-     * This method must be called in {@link RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int)}
+     * This method must be called in {@link AbsDelegationAdapter#onCreateViewHolder(ViewGroup, int)}
      *
      * @param parent   the parent
      * @param viewType the view type
      * @return The new created ViewHolder
-     * @throws NullPointerException if no AdapterDelegate has been registered for ViewHolders
-     *                              viewType
+     * @throws NullPointerException if no AdapterDelegate has been registered for ViewHolders viewType
      */
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        AdapterDelegate<T> delegate = delegates.get(viewType);
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        AbsAdapterDelegate<T> delegate = delegates.get(viewType);
         if (delegate == null) {
             throw new NullPointerException("No AdapterDelegate added for ViewType " + viewType);
         }
@@ -167,23 +91,21 @@ public class AdapterDelegatesManager<T> {
     }
 
     /**
-     * Must be called from{@link RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}
+     * Must be called from{@link AbsDelegationAdapter#onBindViewHolder(RecyclerViewHolder, int)}
      *
-     * @param items      Adapter's data source
-     * @param position   the position in data source
      * @param viewHolder the ViewHolder to bind
-     * @throws NullPointerException if no AdapterDelegate has been registered for ViewHolders
-     *                              viewType
+     * @param item      Adapter's data source item
+     * @throws NullPointerException if no AdapterDelegate has been registered for ViewHolders viewType
      */
-    public void onBindViewHolder(T items, int position, RecyclerView.ViewHolder viewHolder) {
+    public void onBindViewHolder(RecyclerViewHolder viewHolder, T item) {
 
-        AdapterDelegate<T> delegate = delegates.get(viewHolder.getItemViewType());
+        AbsAdapterDelegate<T> delegate = delegates.get(viewHolder.getItemViewType());
         if (delegate == null) {
             throw new NullPointerException(
                     "No AdapterDelegate added for ViewType " + viewHolder.getItemViewType());
         }
 
-        delegate.onBindViewHolder(items, position, viewHolder);
+        delegate.onBindViewHolder(viewHolder,item);
     }
 
 }
