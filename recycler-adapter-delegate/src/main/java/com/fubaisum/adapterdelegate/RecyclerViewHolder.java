@@ -13,7 +13,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
-        views = new SparseArray<View>();
+        views = new SparseArray<>();
     }
 
     @SuppressWarnings("unchecked")

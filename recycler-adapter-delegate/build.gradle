@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/fubaisum/RecyclerAdapterDelegate'
     gitUrl = 'https://github.com/fubaisum/RecyclerAdapterDelegate.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '2.0.0'
 
     developerId = 'scausum'
     developerName = 'SCAU SUM'
@@ -45,10 +45,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
-    provided 'com.android.support:recyclerview-v7:23.1.1'
+    provided 'com.android.support:recyclerview-v7:23.2.1'
+    testCompile 'junit:junit:4.12'
 }
 
 apply from: 'http://fubaisum.github.io/installv1.gradle'
