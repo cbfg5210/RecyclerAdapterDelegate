@@ -37,11 +37,12 @@ public abstract class AbsAdapterDelegate<T> {
         this.itemLayoutResId = itemLayoutResId;
     }
 
-    public int getItemViewType() {
+
+    int getItemViewType() {
         return itemViewType;
     }
 
-    public void setItemViewType(int itemViewType) {
+    void setItemViewType(int itemViewType) {
         this.itemViewType = itemViewType;
     }
 
