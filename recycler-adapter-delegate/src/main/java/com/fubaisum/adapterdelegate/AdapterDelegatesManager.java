@@ -26,14 +26,14 @@ class AdapterDelegatesManager<T> {
 
     SparseArrayCompat<AbsAdapterDelegate<T>> delegates = new SparseArrayCompat<>();
 
-    public AdapterDelegatesManager<T> addDelegate(AbsAdapterDelegate<T> delegate) {
+    AdapterDelegatesManager<T> addDelegate(AbsAdapterDelegate<T> delegate) {
         int itemViewType = delegates.size();//Make sure the itemViewType will be never duplicate.
         delegate.setItemViewType(itemViewType);
         delegates.put(itemViewType, delegate);
         return this;
     }
 
-    public int getItemViewType(List<T> items, int position) {
+    int getItemViewType(List<T> items, int position) {
         int delegatesCount = delegates.size();
         AbsAdapterDelegate<T> delegate;
         for (int i = 0; i < delegatesCount; i++) {
@@ -46,7 +46,7 @@ class AdapterDelegatesManager<T> {
                 "No AdapterDelegate added that matches position=" + position + " in data source");
     }
 
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         AbsAdapterDelegate<T> delegate = delegates.get(viewType);
         if (delegate == null) {
             throw new NullPointerException("No AdapterDelegate added for ViewType " + viewType);
@@ -54,7 +54,7 @@ class AdapterDelegatesManager<T> {
         return delegate.onCreateViewHolder(parent);
     }
 
-    public void onBindViewHolder(RecyclerViewHolder viewHolder, T item) {
+    void onBindViewHolder(RecyclerViewHolder viewHolder, T item) {
         AbsAdapterDelegate<T> delegate = delegates.get(viewHolder.getItemViewType());
         if (delegate == null) {
             throw new NullPointerException(

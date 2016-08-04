@@ -23,7 +23,7 @@ import java.util.List;
 
 public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-    protected AdapterDelegatesManager<T> delegatesManager = new AdapterDelegatesManager<>();
+    private AdapterDelegatesManager<T> delegatesManager = new AdapterDelegatesManager<>();
     protected List<T> items;
 
     @Override
@@ -54,7 +54,7 @@ public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter<Recyc
         this.items = items;
     }
 
-    public void addDelegate(AbsAdapterDelegate<T> delegate) {
+    protected void addDelegate(AbsAdapterDelegate<T> delegate) {
         delegatesManager.addDelegate(delegate);
     }
 }

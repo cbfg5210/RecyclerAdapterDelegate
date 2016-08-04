@@ -37,18 +37,17 @@ public abstract class AbsAdapterDelegate<T> {
         this.itemLayoutResId = itemLayoutResId;
     }
 
-
-    int getItemViewType() {
+    final int getItemViewType() {
         return itemViewType;
     }
 
-    void setItemViewType(int itemViewType) {
+    final void setItemViewType(int itemViewType) {
         this.itemViewType = itemViewType;
     }
 
     protected abstract boolean isForViewType(T item);
 
-    public final RecyclerViewHolder onCreateViewHolder(ViewGroup parent) {
+    final RecyclerViewHolder onCreateViewHolder(ViewGroup parent) {
         View itemView = layoutInflater.inflate(itemLayoutResId, parent, false);
         final RecyclerViewHolder viewHolder = onCreateViewHolder(itemView);
         if (null != onItemClickListener) {
