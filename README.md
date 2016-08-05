@@ -1,7 +1,7 @@
 # RecyclerAdapterDelegate
-#### A handy library for using RecyclerView.
+#### A handy library to support multiple item view types for RecyclerView.
 
-Modified from: <https://github.com/sockeqwe/AdapterDelegates.git/>
+Modified from <https://github.com/sockeqwe/AdapterDelegates.git/>
 
 # Add repository 
 ```
