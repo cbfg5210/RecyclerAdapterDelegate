@@ -27,12 +27,12 @@ public class ContentDelegate extends AbsAdapterDelegate<Item> {
     }
 
     @Override
-    protected boolean isForViewType(Item item) {//判断当前Item，是否由ContentDelegate展示
+    protected boolean isForViewType(Item item) {//Judge the item if it would be shown by current delegate class.
         return item instanceof ContentItem;
     }
 
     @Override
-    protected RecyclerViewHolder onCreateViewHolder(View itemView) {//创建ViewHolder
+    protected RecyclerViewHolder onCreateViewHolder(View itemView) {
         return new RecyclerViewHolder(itemView);
     }
 
