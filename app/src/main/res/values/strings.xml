@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">AdapterDelegate</string>
+    <string name="app_name">RecyclerAdapterDelegate</string>
     <string name="action_settings">Settings</string>
 </resources>

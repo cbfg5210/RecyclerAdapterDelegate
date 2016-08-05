@@ -3,6 +3,7 @@ package com.fubaisum.sample;
 import android.app.Activity;
 
 import com.fubaisum.adapterdelegate.AbsDelegationAdapter;
+import com.fubaisum.sample.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,13 @@ public class MainAdapter extends AbsDelegationAdapter<Item> {
         this.activity = activity;
         this.items = items != null ? items : new ArrayList<Item>();
 
-        OneDelegate oneDelegate = new OneDelegate(activity);
-        TwoDelegate twoDelegate = new TwoDelegate(activity);
-        ThreeDelegate threeDelegate = new ThreeDelegate(activity);
+        ContentDelegate contentDelegate = new ContentDelegate(activity);
+        ComplexDelegate complexDelegate = new ComplexDelegate(activity);
+        ImageDelegate imageDelegate = new ImageDelegate(activity);
 
-        addDelegate(oneDelegate);
-        addDelegate(twoDelegate);
-        addDelegate(threeDelegate);
+        addDelegate(contentDelegate);
+        addDelegate(complexDelegate);
+        addDelegate(imageDelegate);
     }
 
 
