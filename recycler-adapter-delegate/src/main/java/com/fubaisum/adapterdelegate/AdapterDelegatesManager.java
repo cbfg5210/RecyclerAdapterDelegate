@@ -16,6 +16,7 @@
 
 package com.fubaisum.adapterdelegate;
 
+import android.support.annotation.NonNull;
 import android.support.v4.util.SparseArrayCompat;
 import android.view.ViewGroup;
 
@@ -24,22 +25,34 @@ import java.util.List;
 
 class AdapterDelegatesManager<T> {
 
+    /**
+     * Map for ViewType to AdapterDelegate
+     */
     SparseArrayCompat<AbsAdapterDelegate<T>> delegates = new SparseArrayCompat<>();
 
-    AdapterDelegatesManager<T> addDelegate(AbsAdapterDelegate<T> delegate) {
-        int itemViewType = delegates.size();//Make sure the itemViewType will be never duplicate.
-        delegate.setItemViewType(itemViewType);
+    /**
+     * Adds an {@link AbsAdapterDelegate}.
+     * <b>This method automatically assign internally the view type integer by using the next
+     * unused</b>
+     *
+     * @param delegate the delegate to add
+     * @return self
+     * @throws NullPointerException if passed delegate is null
+     */
+    AdapterDelegatesManager<T> addDelegate(@NonNull AbsAdapterDelegate<T> delegate) {
+        // algorithm could be improved since there could be holes,
+        // but it's very unlikely that we reach Integer.MAX_VALUE and run out of unused indexes
+        int itemViewType = delegates.size();
         delegates.put(itemViewType, delegate);
         return this;
     }
 
     int getItemViewType(List<T> items, int position) {
         int delegatesCount = delegates.size();
-        AbsAdapterDelegate<T> delegate;
         for (int i = 0; i < delegatesCount; i++) {
-            delegate = delegates.valueAt(i);
+            AbsAdapterDelegate<T> delegate = delegates.valueAt(i);
             if (delegate.isForViewType(items.get(position))) {
-                return delegate.getItemViewType();
+                return delegates.keyAt(i);
             }
         }
         throw new IllegalArgumentException(

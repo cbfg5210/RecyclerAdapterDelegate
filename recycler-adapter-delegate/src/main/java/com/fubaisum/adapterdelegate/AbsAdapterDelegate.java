@@ -27,7 +27,6 @@ public abstract class AbsAdapterDelegate<T> {
 
     protected LayoutInflater layoutInflater;
     protected int itemLayoutResId;
-    private int itemViewType;
 
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
@@ -37,20 +36,12 @@ public abstract class AbsAdapterDelegate<T> {
         this.itemLayoutResId = itemLayoutResId;
     }
 
-    final int getItemViewType() {
-        return itemViewType;
-    }
-
-    final void setItemViewType(int itemViewType) {
-        this.itemViewType = itemViewType;
-    }
-
     protected abstract boolean isForViewType(T item);
 
     final RecyclerViewHolder onCreateViewHolder(ViewGroup parent) {
         View itemView = layoutInflater.inflate(itemLayoutResId, parent, false);
         final RecyclerViewHolder viewHolder = onCreateViewHolder(itemView);
-        if (null != onItemClickListener) {
+        if (onItemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -58,7 +49,7 @@ public abstract class AbsAdapterDelegate<T> {
                 }
             });
         }
-        if (null != onItemLongClickListener)
+        if (onItemLongClickListener != null)
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
