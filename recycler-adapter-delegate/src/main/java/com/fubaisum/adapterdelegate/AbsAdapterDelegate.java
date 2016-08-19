@@ -37,6 +37,9 @@ public abstract class AbsAdapterDelegate<T, VH extends RecyclerView.ViewHolder> 
     public AbsAdapterDelegate(Activity activity) {
         this.layoutInflater = LayoutInflater.from(activity);
         this.itemLayoutId = getItemLayoutId();
+        if (itemLayoutId == 0) {
+            throw new IllegalStateException("The getItemLayoutId() method can't return 0.");
+        }
     }
 
     @LayoutRes
