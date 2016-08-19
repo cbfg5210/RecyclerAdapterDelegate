@@ -13,7 +13,7 @@ repositories {
 ```
 # Add dependency
 ```
-    compile 'com.fubaisum.adapterdelegate:recycler-adapter-delegate:2.0.4'
+    compile 'com.fubaisum.adapterdelegate:recycler-adapter-delegate:2.1.0'
 ```
 # Screenshot
 ![Image](https://github.com/fubaisum/RecyclerAdapterDelegate/blob/master/art/main.png)
