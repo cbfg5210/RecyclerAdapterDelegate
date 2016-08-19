@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import com.fubaisum.adapterdelegate.AbsAdapterDelegate;
 import com.fubaisum.adapterdelegate.RecyclerViewHolder;
-import com.fubaisum.sample.model.Item;
 import com.fubaisum.sample.model.ContentItem;
+import com.fubaisum.sample.model.Item;
 
 /**
  * Created by sum on 5/10/16.
