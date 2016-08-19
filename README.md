@@ -18,7 +18,7 @@ repositories {
 # Screenshot
 ![Image](https://github.com/fubaisum/RecyclerAdapterDelegate/blob/master/art/main.png)
 # Usage
-#### Create delegates
+#### Create delegates(You can use your RecyclerView.ViewHolder.)
 ```
 public class ContentDelegate extends AbsAdapterDelegate<Item, RecyclerViewHolder> {
 
@@ -43,9 +43,11 @@ public class ContentDelegate extends AbsAdapterDelegate<Item, RecyclerViewHolder
 
     @Override
     protected void onBindViewHolder(@NonNull Item item, @NonNull RecyclerViewHolder holder) {
+    
         ContentItem contentItem = (ContentItem) item;
 
         TextView tvContent = holder.getView(R.id.tv_main_item_content);
+        
         tvContent.setText(contentItem.content != null ? contentItem.content : "Hello World!!!");
     }
 
