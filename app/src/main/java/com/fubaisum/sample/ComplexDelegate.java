@@ -1,26 +1,32 @@
 package com.fubaisum.sample;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fubaisum.adapterdelegate.AbsAdapterDelegate;
 import com.fubaisum.adapterdelegate.RecyclerViewHolder;
-import com.fubaisum.sample.model.Item;
 import com.fubaisum.sample.model.ComplexItem;
+import com.fubaisum.sample.model.Item;
 
 /**
  * Created by sum on 5/10/16.
  */
-public class ComplexDelegate extends AbsAdapterDelegate<Item> {
+public class ComplexDelegate extends AbsAdapterDelegate<Item,RecyclerViewHolder> {
 
     public ComplexDelegate(Activity activity) {
-        super(activity, R.layout.layout_complex);
+        super(activity);
     }
 
     @Override
-    protected boolean isForViewType(Item item) {
+    protected int getItemLayoutId() {
+        return R.layout.layout_complex;
+    }
+
+    @Override
+    public boolean isForViewType(@NonNull Item item) {
         return item instanceof ComplexItem;
     }
 
@@ -30,8 +36,7 @@ public class ComplexDelegate extends AbsAdapterDelegate<Item> {
     }
 
     @Override
-    protected void onBindViewHolder(RecyclerViewHolder holder, Item item) {
-
+    protected void onBindViewHolder(@NonNull Item item, @NonNull RecyclerViewHolder holder) {
         ComplexItem complexItem = (ComplexItem) item;
 
         TextView tvContent = holder.getView(R.id.tv_main_item_content);

@@ -18,6 +18,7 @@ package com.fubaisum.adapterdelegate;
 
 import android.support.annotation.NonNull;
 import android.support.v4.util.SparseArrayCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -28,7 +29,7 @@ class AdapterDelegatesManager<T> {
     /**
      * Map for ViewType to AdapterDelegate
      */
-    SparseArrayCompat<AbsAdapterDelegate<T>> delegates = new SparseArrayCompat<>();
+    SparseArrayCompat<AdapterDelegate<T>> delegates = new SparseArrayCompat<>();
 
     /**
      * Adds an {@link AbsAdapterDelegate}.
@@ -39,7 +40,7 @@ class AdapterDelegatesManager<T> {
      * @return self
      * @throws NullPointerException if passed delegate is null
      */
-    AdapterDelegatesManager<T> addDelegate(@NonNull AbsAdapterDelegate<T> delegate) {
+    AdapterDelegatesManager<T> addDelegate(@NonNull AdapterDelegate<T> delegate) {
         // algorithm could be improved since there could be holes,
         // but it's very unlikely that we reach Integer.MAX_VALUE and run out of unused indexes
         int itemViewType = delegates.size();
@@ -50,7 +51,7 @@ class AdapterDelegatesManager<T> {
     int getItemViewType(List<T> items, int position) {
         int delegatesCount = delegates.size();
         for (int i = 0; i < delegatesCount; i++) {
-            AbsAdapterDelegate<T> delegate = delegates.valueAt(i);
+            AdapterDelegate<T> delegate = delegates.valueAt(i);
             if (delegate.isForViewType(items.get(position))) {
                 return delegates.keyAt(i);
             }
@@ -59,16 +60,16 @@ class AdapterDelegatesManager<T> {
                 "No AdapterDelegate added that matches position=" + position + " in data source");
     }
 
-    RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        AbsAdapterDelegate<T> delegate = delegates.get(viewType);
+    RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        AdapterDelegate<T> delegate = delegates.get(viewType);
         if (delegate == null) {
             throw new NullPointerException("No AdapterDelegate added for ViewType " + viewType);
         }
         return delegate.onCreateViewHolder(parent);
     }
 
-    void onBindViewHolder(RecyclerViewHolder viewHolder, T item) {
-        AbsAdapterDelegate<T> delegate = delegates.get(viewHolder.getItemViewType());
+    void onBindViewHolder(RecyclerView.ViewHolder viewHolder, T item) {
+        AdapterDelegate<T> delegate = delegates.get(viewHolder.getItemViewType());
         if (delegate == null) {
             throw new NullPointerException(
                     "No AdapterDelegate added for ViewType " + viewHolder.getItemViewType());

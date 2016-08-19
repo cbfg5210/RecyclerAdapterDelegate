@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
+public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private AdapterDelegatesManager<T> delegatesManager = new AdapterDelegatesManager<>();
     protected List<T> items;
@@ -32,13 +32,13 @@ public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter<Recyc
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return delegatesManager.onCreateViewHolder(parent, viewType);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder viewHolder, int position) {
-        delegatesManager.onBindViewHolder(viewHolder,items.get(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        delegatesManager.onBindViewHolder(viewHolder, items.get(position));
     }
 
     @Override
@@ -54,7 +54,7 @@ public abstract class AbsDelegationAdapter<T> extends RecyclerView.Adapter<Recyc
         this.items = items;
     }
 
-    protected void addDelegate(AbsAdapterDelegate<T> delegate) {
+    protected void addDelegate(AdapterDelegate<T> delegate) {
         delegatesManager.addDelegate(delegate);
     }
 }

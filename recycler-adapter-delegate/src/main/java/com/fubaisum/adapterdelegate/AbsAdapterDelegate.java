@@ -18,29 +18,37 @@ package com.fubaisum.adapterdelegate;
 
 
 import android.app.Activity;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
-public abstract class AbsAdapterDelegate<T> {
+public abstract class AbsAdapterDelegate<T, VH extends RecyclerView.ViewHolder> implements AdapterDelegate<T> {
 
     protected LayoutInflater layoutInflater;
-    protected int itemLayoutResId;
+    protected int itemLayoutId;
 
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    public AbsAdapterDelegate(Activity activity, int itemLayoutResId) {
+    public AbsAdapterDelegate(Activity activity) {
         this.layoutInflater = LayoutInflater.from(activity);
-        this.itemLayoutResId = itemLayoutResId;
+        this.itemLayoutId = getItemLayoutId();
     }
 
-    protected abstract boolean isForViewType(T item);
+    @LayoutRes
+    protected abstract int getItemLayoutId();
 
-    final RecyclerViewHolder onCreateViewHolder(ViewGroup parent) {
-        View itemView = layoutInflater.inflate(itemLayoutResId, parent, false);
-        final RecyclerViewHolder viewHolder = onCreateViewHolder(itemView);
+    @Override
+    public abstract boolean isForViewType(@NonNull T item);
+
+    @NonNull
+    public final VH onCreateViewHolder(ViewGroup parent) {
+        View itemView = layoutInflater.inflate(itemLayoutId, parent, false);
+        final VH viewHolder = onCreateViewHolder(itemView);
         if (onItemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -60,10 +68,15 @@ public abstract class AbsAdapterDelegate<T> {
         return viewHolder;
     }
 
-    protected abstract RecyclerViewHolder onCreateViewHolder(View itemView);
+    protected abstract VH onCreateViewHolder(View itemView);
 
-    protected abstract void onBindViewHolder(RecyclerViewHolder holder, T item);
+    @Override
+    public final void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull T item) {
+        //noinspection unchecked
+        onBindViewHolder(item, (VH) holder);
+    }
 
+    protected abstract void onBindViewHolder(@NonNull T item, @NonNull VH holder);
 
     /**
      * Item Click Listener
