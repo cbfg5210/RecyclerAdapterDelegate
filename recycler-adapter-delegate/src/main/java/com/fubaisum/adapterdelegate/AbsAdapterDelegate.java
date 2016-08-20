@@ -82,10 +82,16 @@ public abstract class AbsAdapterDelegate<T, VH extends RecyclerView.ViewHolder> 
     protected abstract void onBindViewHolder(@NonNull T item, @NonNull VH holder);
 
     /**
-     * Item Click Listener
+     * Click itemView listener.
      */
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        /**
+         * Callback when click the itemView
+         *
+         * @param itemView itemView in RecyclerView.ViewHolder
+         * @param position the itemView's position in RecyclerView
+         */
+        void onItemClick(View itemView, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -93,13 +99,20 @@ public abstract class AbsAdapterDelegate<T, VH extends RecyclerView.ViewHolder> 
     }
 
     /**
-     * Item Long Click Listener
+     * Long click itemView listener
      */
     public interface OnItemLongClickListener {
-        void onItemLongClick(View view, int position);
+        /**
+         * Callback when long click the itemView
+         *
+         * @param itemView itemView in RecyclerView.ViewHolder
+         * @param position the itemView's position in RecyclerView
+         */
+        void onItemLongClick(View itemView, int position);
     }
 
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
         this.onItemLongClickListener = listener;
     }
+
 }

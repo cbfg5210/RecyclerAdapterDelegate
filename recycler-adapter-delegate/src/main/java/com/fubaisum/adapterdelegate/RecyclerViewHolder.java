@@ -7,9 +7,11 @@ import android.view.View;
 /**
  * Created by sum on 15-12-9.
  */
-public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+public class RecyclerViewHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener {
 
     private final SparseArray<View> views;
+    private OnDelegateClickListener onDelegateClickListener;
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
@@ -28,5 +30,23 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     public <T extends View> T getView(int viewId) {
         return retrieveView(viewId);
+    }
+
+    public void setOnClickListener(int viewId) {
+        View view = retrieveView(viewId);
+        view.setOnClickListener(this);
+    }
+
+    public void setOnDelegateClickListener(OnDelegateClickListener listener) {
+        this.onDelegateClickListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onDelegateClickListener == null) {
+            return;
+        }
+        int position = getAdapterPosition();
+        onDelegateClickListener.onClick(v, position);
     }
 }

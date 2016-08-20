@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fubaisum.adapterdelegate.AbsAdapterDelegate;
+import com.fubaisum.adapterdelegate.OnDelegateClickListener;
 import com.fubaisum.adapterdelegate.RecyclerViewHolder;
 import com.fubaisum.sample.model.ContentItem;
 import com.fubaisum.sample.model.Item;
@@ -15,8 +16,14 @@ import com.fubaisum.sample.model.Item;
  */
 public class ContentDelegate extends AbsAdapterDelegate<Item, RecyclerViewHolder> {
 
+    private OnDelegateClickListener onDelegateClickListener;
+
     public ContentDelegate(Activity activity) {
         super(activity);
+    }
+
+    public void setOnDelegateClickListener(OnDelegateClickListener onDelegateClickListener) {
+        this.onDelegateClickListener = onDelegateClickListener;
     }
 
     @Override
@@ -31,7 +38,10 @@ public class ContentDelegate extends AbsAdapterDelegate<Item, RecyclerViewHolder
 
     @Override
     protected RecyclerViewHolder onCreateViewHolder(View itemView) {
-        return new RecyclerViewHolder(itemView);
+        RecyclerViewHolder viewHolder = new RecyclerViewHolder(itemView);
+        viewHolder.setOnDelegateClickListener(onDelegateClickListener);
+        viewHolder.setOnClickListener(R.id.tv_main_item_content);
+        return viewHolder;
     }
 
     @Override
