@@ -89,6 +89,9 @@ public class MainAdapter extends AbsDelegationAdapter<Item> {
         mainAdapter = new MainAdapter(this, items);
         recyclerView.setAdapter(mainAdapter);
 ```
+#### Set onDelegateClickListener
+Set the onDelegateClickListener can easily handle the view(child of RecyclerView itemView) click event in DelegationAdapter.
+
 # License
 ```
 Copyright 2016 fubaisum.
