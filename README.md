@@ -13,22 +13,17 @@ repositories {
 ```
 # Add dependency
 ```
-    compile 'com.fubaisum.adapterdelegate:recycler-adapter-delegate:2.2.0'
+    compile 'com.fubaisum.adapterdelegate:recycler-adapter-delegate:2.2.1'
 ```
 # Screenshot
 ![Image](https://github.com/fubaisum/RecyclerAdapterDelegate/blob/master/art/main.png)
 # Usage
-#### Create delegates(You can use your RecyclerView.ViewHolder.)
+#### Create delegates(You can use custom RecyclerView.ViewHolder.)
 ```
 public class ContentDelegate extends AbsAdapterDelegate<Item, RecyclerViewHolder> {
 
     public ContentDelegate(Activity activity) {
-        super(activity);
-    }
-
-    @Override
-    protected int getItemLayoutId() {
-        return R.layout.layout_content;
+        super(activity,R.layout.layout_content);
     }
 
     @Override
