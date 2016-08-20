@@ -19,16 +19,11 @@ public class ContentDelegate extends AbsAdapterDelegate<Item, RecyclerViewHolder
     private OnDelegateClickListener onDelegateClickListener;
 
     public ContentDelegate(Activity activity) {
-        super(activity);
+        super(activity, R.layout.layout_content);
     }
 
     public void setOnDelegateClickListener(OnDelegateClickListener onDelegateClickListener) {
         this.onDelegateClickListener = onDelegateClickListener;
-    }
-
-    @Override
-    protected int getItemLayoutId() {
-        return R.layout.layout_content;
     }
 
     @Override

@@ -20,16 +20,11 @@ public class ComplexDelegate extends AbsAdapterDelegate<Item, ComplexDelegate.Co
     private OnDelegateClickListener onDelegateClickListener;
 
     public ComplexDelegate(Activity activity) {
-        super(activity);
+        super(activity, R.layout.layout_complex);
     }
 
     public void setOnDelegateClickListener(OnDelegateClickListener onDelegateClickListener) {
         this.onDelegateClickListener = onDelegateClickListener;
-    }
-
-    @Override
-    protected int getItemLayoutId() {
-        return R.layout.layout_complex;
     }
 
     @Override

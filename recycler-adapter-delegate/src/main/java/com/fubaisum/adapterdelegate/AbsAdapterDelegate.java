@@ -34,16 +34,10 @@ public abstract class AbsAdapterDelegate<T, VH extends RecyclerView.ViewHolder> 
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    public AbsAdapterDelegate(Activity activity) {
+    public AbsAdapterDelegate(Activity activity,@LayoutRes int itemLayoutId) {
         this.layoutInflater = LayoutInflater.from(activity);
-        this.itemLayoutId = getItemLayoutId();
-        if (itemLayoutId == 0) {
-            throw new IllegalStateException("The getItemLayoutId() method can't return 0.");
-        }
+        this.itemLayoutId = itemLayoutId;
     }
-
-    @LayoutRes
-    protected abstract int getItemLayoutId();
 
     @Override
     public abstract boolean isForViewType(@NonNull T item);

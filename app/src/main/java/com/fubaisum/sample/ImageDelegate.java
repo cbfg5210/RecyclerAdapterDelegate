@@ -16,12 +16,7 @@ import com.fubaisum.sample.model.ImageItem;
 public class ImageDelegate extends AbsAdapterDelegate<Item, RecyclerViewHolder> {
 
     public ImageDelegate(Activity activity) {
-        super(activity);
-    }
-
-    @Override
-    protected int getItemLayoutId() {
-        return R.layout.layout_image;
+        super(activity, R.layout.layout_image);
     }
 
     @Override
