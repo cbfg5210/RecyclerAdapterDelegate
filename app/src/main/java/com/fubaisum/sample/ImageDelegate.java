@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.fubaisum.adapterdelegate.AbsAdapterDelegate;
-import com.fubaisum.adapterdelegate.OnDelegateClickListener;
 import com.fubaisum.sample.model.ImageItem;
 import com.fubaisum.sample.model.Item;
 
@@ -37,28 +36,14 @@ public class ImageDelegate extends AbsAdapterDelegate<Item, ImageDelegate.ViewHo
         holder.ivIcon.setImageResource(imageItem.imageRes != 0 ? imageItem.imageRes : R.mipmap.ic_launcher);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivIcon;
-
-        private OnDelegateClickListener onDelegateClickListener;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             ivIcon = (ImageView) itemView.findViewById(R.id.iv_main_item_icon);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int position = getAdapterPosition();
-            if (onDelegateClickListener != null) {
-                onDelegateClickListener.onClick(v, position);
-            }
-        }
-
-        public void setOnDelegateClickListener(OnDelegateClickListener onDelegateClickListener) {
-            this.onDelegateClickListener = onDelegateClickListener;
         }
     }
 
