@@ -18,35 +18,44 @@ repositories {
 # Screenshot
 ![Image](https://github.com/fubaisum/RecyclerAdapterDelegate/blob/master/art/main.png)
 # Usage
-#### Create delegates(You can use custom RecyclerView.ViewHolder.)
+#### Create delegates
 ```
-public class ContentDelegate extends AbsAdapterDelegate<Item, RecyclerViewHolder> {
+public class ImageDelegate extends AbsAdapterDelegate<Item, ImageDelegate.ViewHolder> {
 
-    public ContentDelegate(Activity activity) {
-        super(activity,R.layout.layout_content);
+    public ImageDelegate(Activity activity) {
+        super(activity, R.layout.layout_image);
     }
 
     @Override
     public boolean isForViewType(@NonNull Item item) {
-        return item instanceof ContentItem;
+        return item instanceof ImageItem;
     }
 
     @Override
-    protected RecyclerViewHolder onCreateViewHolder(View itemView) {
-        return new RecyclerViewHolder(itemView);
+    protected ViewHolder onCreateViewHolder(View itemView) {
+        return new ViewHolder(itemView);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull Item item, @NonNull RecyclerViewHolder holder) {
-    
-        ContentItem contentItem = (ContentItem) item;
+    protected void onBindViewHolder(@NonNull Item item, @NonNull ViewHolder holder) {
+        ImageItem imageItem = (ImageItem) item;
 
-        TextView tvContent = holder.getView(R.id.tv_main_item_content);
-        
-        tvContent.setText(contentItem.content != null ? contentItem.content : "Hello World!!!");
+        holder.ivIcon.setImageResource(imageItem.imageRes != 0 ? imageItem.imageRes : R.mipmap.ic_launcher);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView ivIcon;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            ivIcon = (ImageView) itemView.findViewById(R.id.iv_main_item_icon);
+        }
     }
 
 }
+
 ```
 #### Create adapter
 ```
