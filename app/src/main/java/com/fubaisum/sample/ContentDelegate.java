@@ -3,7 +3,9 @@ package com.fubaisum.sample;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fubaisum.adapterdelegate.AbsAdapterDelegate;
@@ -14,12 +16,12 @@ import com.fubaisum.sample.model.Item;
 /**
  * Created by sum on 5/10/16.
  */
-public class ContentDelegate extends AbsAdapterDelegate<Item, ContentDelegate.ViewHolder> {
+public class ContentDelegate extends AbsAdapterDelegate<Item> {
 
     private OnDelegateClickListener onDelegateClickListener;
 
     public ContentDelegate(Activity activity) {
-        super(activity, R.layout.layout_content);
+        super(activity);
     }
 
     public void setOnDelegateClickListener(OnDelegateClickListener onDelegateClickListener) {
@@ -32,16 +34,19 @@ public class ContentDelegate extends AbsAdapterDelegate<Item, ContentDelegate.Vi
     }
 
     @Override
-    protected ViewHolder onCreateViewHolder(View itemView) {
+    protected RecyclerView.ViewHolder onCreateViewHolder(LayoutInflater layoutInflater, ViewGroup parent) {
+        View itemView = layoutInflater.inflate(R.layout.layout_content, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemView);
         viewHolder.setOnDelegateClickListener(onDelegateClickListener);
         return viewHolder;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull Item item, @NonNull ViewHolder holder) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder vh, @NonNull Item item) {
+        ViewHolder viewHolder = (ViewHolder) vh;
         ContentItem contentItem = (ContentItem) item;
-        holder.tvContent.setText(contentItem.content != null ? contentItem.content : "Hello World!!!");
+
+        viewHolder.tvContent.setText(contentItem.content != null ? contentItem.content : "Hello World!!!");
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

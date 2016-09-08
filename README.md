@@ -13,17 +13,17 @@ repositories {
 ```
 # Add dependency
 ```
-    compile 'com.fubaisum.adapterdelegate:recycler-adapter-delegate:2.2.1'
+    compile 'com.fubaisum.adapterdelegate:recycler-adapter-delegate:2.2.3'
 ```
 # Screenshot
 ![Image](https://github.com/fubaisum/RecyclerAdapterDelegate/blob/master/art/main.png)
 # Usage
 #### Create delegates
 ```
-public class ImageDelegate extends AbsAdapterDelegate<Item, ImageDelegate.ViewHolder> {
+public class ImageDelegate extends AbsAdapterDelegate<Item> {
 
     public ImageDelegate(Activity activity) {
-        super(activity, R.layout.layout_image);
+        super(activity);
     }
 
     @Override
@@ -32,15 +32,17 @@ public class ImageDelegate extends AbsAdapterDelegate<Item, ImageDelegate.ViewHo
     }
 
     @Override
-    protected ViewHolder onCreateViewHolder(View itemView) {
+    protected RecyclerView.ViewHolder onCreateViewHolder(LayoutInflater layoutInflater, ViewGroup parent) {
+        View itemView = layoutInflater.inflate(R.layout.layout_image, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull Item item, @NonNull ViewHolder holder) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull Item item) {
+        ViewHolder viewHolder = (ViewHolder) holder;
         ImageItem imageItem = (ImageItem) item;
 
-        holder.ivIcon.setImageResource(imageItem.imageRes != 0 ? imageItem.imageRes : R.mipmap.ic_launcher);
+        viewHolder.ivIcon.setImageResource(imageItem.imageRes != 0 ? imageItem.imageRes : R.mipmap.ic_launcher);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

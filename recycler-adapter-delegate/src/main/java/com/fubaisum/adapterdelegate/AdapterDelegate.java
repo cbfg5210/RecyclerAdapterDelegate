@@ -53,8 +53,8 @@ public interface AdapterDelegate<T> {
     /**
      * Called to bind the {@link RecyclerView.ViewHolder} to the item of the data source set
      *
-     * @param holder The {@link RecyclerView.ViewHolder} to bind
+     * @param vh The {@link RecyclerView.ViewHolder} to bind
      * @param item   The element of data source
      */
-    void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull T item);
+    void onBindViewHolder(@NonNull RecyclerView.ViewHolder vh, @NonNull T item);
 }

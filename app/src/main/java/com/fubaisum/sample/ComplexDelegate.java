@@ -3,7 +3,9 @@ package com.fubaisum.sample;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +17,12 @@ import com.fubaisum.sample.model.Item;
 /**
  * Created by sum on 5/10/16.
  */
-public class ComplexDelegate extends AbsAdapterDelegate<Item, ComplexDelegate.ComplexViewHolder> {
+public class ComplexDelegate extends AbsAdapterDelegate<Item> {
 
     private OnDelegateClickListener onDelegateClickListener;
 
     public ComplexDelegate(Activity activity) {
-        super(activity, R.layout.layout_complex);
+        super(activity);
     }
 
     public void setOnDelegateClickListener(OnDelegateClickListener onDelegateClickListener) {
@@ -33,19 +35,20 @@ public class ComplexDelegate extends AbsAdapterDelegate<Item, ComplexDelegate.Co
     }
 
     @Override
-    protected ComplexViewHolder onCreateViewHolder(View itemView) {
+    protected RecyclerView.ViewHolder onCreateViewHolder(LayoutInflater layoutInflater, ViewGroup parent) {
+        View itemView = layoutInflater.inflate(R.layout.layout_complex, parent, false);
         ComplexViewHolder complexViewHolder = new ComplexViewHolder(itemView);
         complexViewHolder.setOnDelegateClickListener(onDelegateClickListener);
         return complexViewHolder;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull Item item, @NonNull ComplexViewHolder holder) {
-
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, @NonNull Item item) {
+        ComplexViewHolder complexViewHolder = (ComplexViewHolder) viewHolder;
         ComplexItem complexItem = (ComplexItem) item;
 
-        holder.tvContent.setText(complexItem.content != null ? complexItem.content : "Hello World!!!");
-        holder.ivIcon.setImageResource(complexItem.imageRes != 0 ? complexItem.imageRes : R.mipmap.ic_launcher);
+        complexViewHolder.tvContent.setText(complexItem.content != null ? complexItem.content : "Hello World!!!");
+        complexViewHolder.ivIcon.setImageResource(complexItem.imageRes != 0 ? complexItem.imageRes : R.mipmap.ic_launcher);
     }
 
     static class ComplexViewHolder extends RecyclerView.ViewHolder

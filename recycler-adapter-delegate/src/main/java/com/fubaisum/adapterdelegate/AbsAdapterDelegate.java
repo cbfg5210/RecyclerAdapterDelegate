@@ -18,7 +18,6 @@ package com.fubaisum.adapterdelegate;
 
 
 import android.app.Activity;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,28 +25,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public abstract class AbsAdapterDelegate<T, VH extends RecyclerView.ViewHolder> implements AdapterDelegate<T> {
+public abstract class AbsAdapterDelegate<T> implements AdapterDelegate<T> {
 
     protected LayoutInflater layoutInflater;
-    protected int itemLayoutId;
 
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    public AbsAdapterDelegate(Activity activity,@LayoutRes int itemLayoutId) {
+    public AbsAdapterDelegate(Activity activity) {
         this.layoutInflater = LayoutInflater.from(activity);
-        this.itemLayoutId = itemLayoutId;
     }
 
     @Override
     public abstract boolean isForViewType(@NonNull T item);
 
     @NonNull
-    public final VH onCreateViewHolder(ViewGroup parent) {
-        View itemView = layoutInflater.inflate(itemLayoutId, parent, false);
-        final VH viewHolder = onCreateViewHolder(itemView);
+    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
+        final RecyclerView.ViewHolder viewHolder = onCreateViewHolder(layoutInflater, parent);
         if (onItemClickListener != null) {
-            itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onItemClickListener.onItemClick(view, viewHolder.getAdapterPosition());
@@ -55,7 +51,7 @@ public abstract class AbsAdapterDelegate<T, VH extends RecyclerView.ViewHolder> 
             });
         }
         if (onItemLongClickListener != null)
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     onItemLongClickListener.onItemLongClick(view, viewHolder.getAdapterPosition());
@@ -65,15 +61,8 @@ public abstract class AbsAdapterDelegate<T, VH extends RecyclerView.ViewHolder> 
         return viewHolder;
     }
 
-    protected abstract VH onCreateViewHolder(View itemView);
+    protected abstract RecyclerView.ViewHolder onCreateViewHolder(LayoutInflater layoutInflater, ViewGroup parent);
 
-    @Override
-    public final void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull T item) {
-        //noinspection unchecked
-        onBindViewHolder(item, (VH) holder);
-    }
-
-    protected abstract void onBindViewHolder(@NonNull T item, @NonNull VH holder);
 
     /**
      * Click itemView listener.
