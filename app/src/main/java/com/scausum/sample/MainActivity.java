@@ -1,14 +1,14 @@
-package com.fubaisum.sample;
+package com.scausum.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import com.fubaisum.sample.model.ComplexItem;
-import com.fubaisum.sample.model.ContentItem;
-import com.fubaisum.sample.model.ImageItem;
-import com.fubaisum.sample.model.Item;
+import com.scausum.sample.model.ComplexItem;
+import com.scausum.sample.model.ContentItem;
+import com.scausum.sample.model.ImageItem;
+import com.scausum.sample.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;

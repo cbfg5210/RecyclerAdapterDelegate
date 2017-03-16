@@ -1,4 +1,4 @@
-package com.fubaisum.adapterdelegate;
+package com.scausum.adapterdelegate;
 
 import android.view.View;
 

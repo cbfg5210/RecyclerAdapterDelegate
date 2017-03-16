@@ -1,4 +1,4 @@
-package com.fubaisum.adapterdelegate;
+package com.scausum.sample;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

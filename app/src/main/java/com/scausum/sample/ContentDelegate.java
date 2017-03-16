@@ -1,4 +1,4 @@
-package com.fubaisum.sample;
+package com.scausum.sample;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.fubaisum.adapterdelegate.AbsAdapterDelegate;
-import com.fubaisum.adapterdelegate.OnDelegateClickListener;
-import com.fubaisum.sample.model.ContentItem;
-import com.fubaisum.sample.model.Item;
+import com.scausum.adapterdelegate.AbsAdapterDelegate;
+import com.scausum.adapterdelegate.OnDelegateClickListener;
+import com.scausum.sample.model.ContentItem;
+import com.scausum.sample.model.Item;
 
 /**
  * Created by sum on 5/10/16.

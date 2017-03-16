@@ -1,14 +1,14 @@
-package com.fubaisum.sample;
+package com.scausum.sample;
 
 import android.app.Activity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.fubaisum.adapterdelegate.AbsDelegationAdapter;
-import com.fubaisum.adapterdelegate.OnDelegateClickListener;
-import com.fubaisum.sample.model.ComplexItem;
-import com.fubaisum.sample.model.ContentItem;
-import com.fubaisum.sample.model.Item;
+import com.scausum.adapterdelegate.AbsDelegationAdapter;
+import com.scausum.adapterdelegate.OnDelegateClickListener;
+import com.scausum.sample.model.ComplexItem;
+import com.scausum.sample.model.ContentItem;
+import com.scausum.sample.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;

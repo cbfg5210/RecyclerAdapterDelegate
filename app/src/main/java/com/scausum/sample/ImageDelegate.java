@@ -1,4 +1,4 @@
-package com.fubaisum.sample;
+package com.scausum.sample;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.fubaisum.adapterdelegate.AbsAdapterDelegate;
-import com.fubaisum.sample.model.ImageItem;
-import com.fubaisum.sample.model.Item;
+import com.scausum.adapterdelegate.AbsAdapterDelegate;
+import com.scausum.sample.model.ImageItem;
+import com.scausum.sample.model.Item;
 
 /**
  * Created by sum on 5/10/16.

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.fubaisum.adapterdelegate;
+package com.scausum.adapterdelegate;
 
 
 import android.app.Activity;
