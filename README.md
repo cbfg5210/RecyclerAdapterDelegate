@@ -4,20 +4,20 @@
 Based on <https://github.com/sockeqwe/AdapterDelegates.git/>
 
 # Add repository 
-```
+```gradle
 repositories {
     maven { url 'https://dl.bintray.com/scausum/maven' }
 }
 ```
 # Add dependency
-```
+```gradle
     compile 'com.scausum.adapterdelegate:recycler-adapter-delegate:0.4.0'
 ```
 # Screenshot
 ![Image](https://github.com/fubaisum/RecyclerAdapterDelegate/blob/master/art/main.png)
 # Usage
 #### Create delegates
-```
+```java
 public class ContentDelegate extends AdapterDelegate<Item> {
 
     public ContentDelegate(Activity activity) {
@@ -61,7 +61,7 @@ public class ContentDelegate extends AdapterDelegate<Item> {
 
 ```
 #### Create adapter
-```
+```java
 public class MainAdapter extends DelegationAdapter<Item> {
 
     private Activity activity;
@@ -115,7 +115,7 @@ public class MainAdapter extends DelegationAdapter<Item> {
 }
 ```
 #### Set adapter
-```
+```java
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
