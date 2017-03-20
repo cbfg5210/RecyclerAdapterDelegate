@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.scausum.adapterdelegate.AbsDelegationAdapter;
+import com.scausum.adapterdelegate.DelegationAdapter;
 import com.scausum.adapterdelegate.OnDelegateClickListener;
 import com.scausum.sample.model.ComplexItem;
 import com.scausum.sample.model.ContentItem;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by sum on 5/10/16.
  */
-public class MainAdapter extends AbsDelegationAdapter<Item> {
+public class MainAdapter extends DelegationAdapter<Item> {
 
     private Activity activity;
 

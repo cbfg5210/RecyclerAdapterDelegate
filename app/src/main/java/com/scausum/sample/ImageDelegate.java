@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.scausum.adapterdelegate.AbsAdapterDelegate;
+import com.scausum.adapterdelegate.AdapterDelegate;
 import com.scausum.sample.model.ImageItem;
 import com.scausum.sample.model.Item;
+
+import java.util.List;
 
 /**
  * Created by sum on 5/10/16.
  */
-public class ImageDelegate extends AbsAdapterDelegate<Item> {
+public class ImageDelegate extends AdapterDelegate<Item> {
 
     public ImageDelegate(Activity activity) {
         super(activity);
@@ -33,7 +35,7 @@ public class ImageDelegate extends AbsAdapterDelegate<Item> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull Item item) {
+    protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull Item item, @NonNull List<Object> payloads) {
         ViewHolder viewHolder = (ViewHolder) holder;
         ImageItem imageItem = (ImageItem) item;
 

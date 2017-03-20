@@ -4,11 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- *
+ * Created by sum on 3/21/17.
  */
-public abstract class OnDelegateClickListener
-        implements View.OnClickListener {
 
+public abstract class OnDelegateLongClickListener implements View.OnLongClickListener {
     private RecyclerView.ViewHolder viewHolder;
 
     public void setViewHolder(RecyclerView.ViewHolder viewHolder) {
@@ -16,20 +15,20 @@ public abstract class OnDelegateClickListener
     }
 
     @Override
-    public final void onClick(View v) {
+    public final boolean onLongClick(View v) {
         if (viewHolder == null) {
             throw new NullPointerException("Must invoke OnDelegateClickListener.setViewHolder() method in " +
-                    "before View.onClick() event.");
+                    "before View.onLongClick() event.");
         }
         int position = viewHolder.getAdapterPosition();
-        onClick(v, position);
+        return onLongClick(v, position);
     }
 
     /**
-     * Callback when click the itemView's child view
+     * Callback when long click the itemView's child view
      *
      * @param child    the itemView's child view
      * @param position the itemView's position in RecyclerView
      */
-    protected abstract void onClick(View child, int position);
+    protected abstract boolean onLongClick(View child, int position);
 }
