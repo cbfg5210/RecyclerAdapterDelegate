@@ -133,7 +133,7 @@ public class MainAdapter extends DelegationAdapter<Item> {
         mainAdapter = new MainAdapter(this, items);
         recyclerView.setAdapter(mainAdapter);
 ```
-#### Thanks
+# Thanks
 * <https://github.com/sockeqwe/AdapterDelegates.git/>
 
 # License
