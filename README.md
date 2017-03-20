@@ -1,58 +1,59 @@
 # RecyclerAdapterDelegate
 #### A handy library to support multiple item view types for RecyclerView.
 
-Modified from <https://github.com/sockeqwe/AdapterDelegates.git/>
+Based on <https://github.com/sockeqwe/AdapterDelegates.git/>
 
 # Add repository 
 ```
 repositories {
-    maven {
-        url 'https://dl.bintray.com/fubaisum/maven/'
-    }
+    maven { url 'https://dl.bintray.com/scausum/maven' }
 }
 ```
 # Add dependency
 ```
-    compile 'com.fubaisum.adapterdelegate:recycler-adapter-delegate:2.2.3'
+    compile 'com.scausum.adapterdelegate:recycler-adapter-delegate:0.4.0'
 ```
 # Screenshot
 ![Image](https://github.com/fubaisum/RecyclerAdapterDelegate/blob/master/art/main.png)
 # Usage
 #### Create delegates
 ```
-public class ImageDelegate extends AbsAdapterDelegate<Item> {
+public class ContentDelegate extends AdapterDelegate<Item> {
 
-    public ImageDelegate(Activity activity) {
+    public ContentDelegate(Activity activity) {
         super(activity);
     }
 
     @Override
     public boolean isForViewType(@NonNull Item item) {
-        return item instanceof ImageItem;
+        return item instanceof ContentItem;
     }
 
     @Override
     protected RecyclerView.ViewHolder onCreateViewHolder(LayoutInflater layoutInflater, ViewGroup parent) {
-        View itemView = layoutInflater.inflate(R.layout.layout_image, parent, false);
-        return new ViewHolder(itemView);
+        View itemView = layoutInflater.inflate(R.layout.layout_content, parent, false);
+        ViewHolder viewHolder = new ViewHolder(itemView);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull Item item) {
-        ViewHolder viewHolder = (ViewHolder) holder;
-        ImageItem imageItem = (ImageItem) item;
+    protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull Item item, @NonNull List<Object> payloads) {
+        final ViewHolder viewHolder = (ViewHolder) holder;
+        onDelegateClickListener.setViewHolder(viewHolder);
+        ContentItem contentItem = (ContentItem) item;
+        viewHolder.tvContent.setOnClickListener(onDelegateClickListener);
+        viewHolder.tvContent.setText(contentItem.content != null ? contentItem.content : "Hello World!!!");
 
-        viewHolder.ivIcon.setImageResource(imageItem.imageRes != 0 ? imageItem.imageRes : R.mipmap.ic_launcher);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    private static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView ivIcon;
+        private TextView tvContent;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            ivIcon = (ImageView) itemView.findViewById(R.id.iv_main_item_icon);
+            tvContent = (TextView) itemView.findViewById(R.id.tv_main_item_content);
         }
     }
 
@@ -61,7 +62,7 @@ public class ImageDelegate extends AbsAdapterDelegate<Item> {
 ```
 #### Create adapter
 ```
-public class MainAdapter extends AbsDelegationAdapter<Item> {
+public class MainAdapter extends DelegationAdapter<Item> {
 
     private Activity activity;
 
@@ -70,13 +71,47 @@ public class MainAdapter extends AbsDelegationAdapter<Item> {
         this.items = items != null ? items : new ArrayList<Item>();
 
         ContentDelegate contentDelegate = new ContentDelegate(activity);
-        ComplexDelegate complexDelegate = new ComplexDelegate(activity);
         ImageDelegate imageDelegate = new ImageDelegate(activity);
+        ComplexDelegate complexDelegate = new ComplexDelegate(activity);
 
         addDelegate(contentDelegate);
-        addDelegate(complexDelegate);
         addDelegate(imageDelegate);
+        addDelegate(complexDelegate);
     }
+
+    private OnDelegateClickListener contentViewClickListener = new OnDelegateClickListener() {
+
+        @Override
+        public void onClick(View child, int position) {
+            if (position < 0 || position >= getItemCount()) {
+                return;
+            }
+            ContentItem item = (ContentItem) items.get(position);
+            switch (child.getId()) {
+                case R.id.tv_main_item_content: {
+                    Toast.makeText(activity, item.content, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
+    };
+
+    private OnDelegateClickListener complexViewClickListener = new OnDelegateClickListener() {
+
+        @Override
+        public void onClick(View child, int position) {
+            if (position < 0 || position >= getItemCount()) {
+                return;
+            }
+            ComplexItem item = (ComplexItem) items.get(position);
+            switch (child.getId()) {
+                case R.id.tv_main_item_content: {
+                    Toast.makeText(activity, item.content, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
+    };
 }
 ```
 #### Set adapter
@@ -95,12 +130,12 @@ public class MainAdapter extends AbsDelegationAdapter<Item> {
         mainAdapter = new MainAdapter(this, items);
         recyclerView.setAdapter(mainAdapter);
 ```
-#### Set onDelegateClickListener
-Set the onDelegateClickListener can easily handle the view(child of RecyclerView itemView) click event in DelegationAdapter.
+#### Thanks
+* <https://github.com/sockeqwe/AdapterDelegates.git/>
 
 # License
 ```
-Copyright 2016 fubaisum.
+Copyright 2016 Jiajie Shen.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
