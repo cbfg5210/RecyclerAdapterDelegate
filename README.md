@@ -77,6 +77,9 @@ public class MainAdapter extends DelegationAdapter<Item> {
         addDelegate(contentDelegate);
         addDelegate(imageDelegate);
         addDelegate(complexDelegate);
+        
+        contentDelegate.setOnDelegateClickListener(contentViewClickListener);
+        complexDelegate.setOnDelegateClickListener(complexViewClickListener);
     }
 
     private OnDelegateClickListener contentViewClickListener = new OnDelegateClickListener() {
