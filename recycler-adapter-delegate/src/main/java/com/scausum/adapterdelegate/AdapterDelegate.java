@@ -29,19 +29,9 @@ import java.util.List;
 public abstract class AdapterDelegate<T> {
 
     protected LayoutInflater layoutInflater;
-    protected OnDelegateClickListener onDelegateClickListener;
-    protected OnDelegateLongClickListener onDelegateLongClickListener;
 
     public AdapterDelegate(Activity activity) {
         this.layoutInflater = LayoutInflater.from(activity);
-    }
-
-    public void setOnDelegateClickListener(OnDelegateClickListener listener) {
-        this.onDelegateClickListener = listener;
-    }
-
-    public void setOnDelegateLongClickListener(OnDelegateLongClickListener listener) {
-        this.onDelegateLongClickListener = listener;
     }
 
     public abstract boolean isForViewType(@NonNull T item);

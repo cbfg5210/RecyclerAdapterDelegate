@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scausum.adapterdelegate.AdapterDelegate;
+import com.scausum.adapterdelegate.OnDelegateClickListener;
 import com.scausum.sample.model.ComplexItem;
 import com.scausum.sample.model.Item;
 
@@ -20,8 +21,14 @@ import java.util.List;
  */
 public class ComplexDelegate extends AdapterDelegate<Item> {
 
+    private OnDelegateClickListener onDelegateClickListener;
+
     public ComplexDelegate(Activity activity) {
         super(activity);
+    }
+
+    public void setOnDelegateClickListener(OnDelegateClickListener listener) {
+        this.onDelegateClickListener = listener;
     }
 
     @Override
@@ -39,15 +46,23 @@ public class ComplexDelegate extends AdapterDelegate<Item> {
     @Override
     protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull Item item, @NonNull List<Object> payloads) {
         final ComplexViewHolder viewHolder = (ComplexViewHolder) holder;
-        onDelegateClickListener.setViewHolder(viewHolder);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onDelegateClickListener != null) {
+                    int position = viewHolder.getAdapterPosition();
+                    onDelegateClickListener.onClick(v, position);
+                }
+            }
+        };
         ComplexItem complexItem = (ComplexItem) item;
-        viewHolder.tvContent.setOnClickListener(onDelegateClickListener);
-        viewHolder.ivIcon.setOnClickListener(onDelegateClickListener);
+        viewHolder.tvContent.setOnClickListener(onClickListener);
+        viewHolder.ivIcon.setOnClickListener(onClickListener);
         viewHolder.tvContent.setText(complexItem.content != null ? complexItem.content : "Hello World!!!");
         viewHolder.ivIcon.setImageResource(complexItem.imageRes != 0 ? complexItem.imageRes : R.mipmap.ic_launcher);
     }
 
-    static class ComplexViewHolder extends RecyclerView.ViewHolder {
+    private static class ComplexViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvContent;
         private ImageView ivIcon;

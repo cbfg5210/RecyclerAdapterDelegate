@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.scausum.adapterdelegate.AdapterDelegate;
+import com.scausum.adapterdelegate.OnDelegateClickListener;
 import com.scausum.sample.model.ContentItem;
 import com.scausum.sample.model.Item;
 
@@ -19,8 +20,14 @@ import java.util.List;
  */
 public class ContentDelegate extends AdapterDelegate<Item> {
 
+    private OnDelegateClickListener onDelegateClickListener;
+
     public ContentDelegate(Activity activity) {
         super(activity);
+    }
+
+    public void setOnDelegateClickListener(OnDelegateClickListener listener) {
+        this.onDelegateClickListener = listener;
     }
 
     @Override
@@ -38,9 +45,17 @@ public class ContentDelegate extends AdapterDelegate<Item> {
     @Override
     protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull Item item, @NonNull List<Object> payloads) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        onDelegateClickListener.setViewHolder(viewHolder);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onDelegateClickListener != null) {
+                    int position = viewHolder.getAdapterPosition();
+                    onDelegateClickListener.onClick(v, position);
+                }
+            }
+        };
         ContentItem contentItem = (ContentItem) item;
-        viewHolder.tvContent.setOnClickListener(onDelegateClickListener);
+        viewHolder.tvContent.setOnClickListener(onClickListener);
         viewHolder.tvContent.setText(contentItem.content != null ? contentItem.content : "Hello World!!!");
 
     }
