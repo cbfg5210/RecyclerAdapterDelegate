@@ -11,7 +11,7 @@ repositories {
 ```
 # Add dependency
 ```gradle
-    compile 'com.scausum.adapterdelegate:recycler-adapter-delegate:0.4.0'
+    compile 'com.scausum.adapterdelegate:recycler-adapter-delegate:0.4.1'
 ```
 # Screenshot
 ![Image](https://github.com/fubaisum/RecyclerAdapterDelegate/blob/master/art/main.png)
@@ -20,8 +20,14 @@ repositories {
 ```java
 public class ContentDelegate extends AdapterDelegate<Item> {
 
+    private OnDelegateClickListener onDelegateClickListener;
+
     public ContentDelegate(Activity activity) {
         super(activity);
+    }
+
+    public void setOnDelegateClickListener(OnDelegateClickListener listener) {
+        this.onDelegateClickListener = listener;
     }
 
     @Override
@@ -39,9 +45,17 @@ public class ContentDelegate extends AdapterDelegate<Item> {
     @Override
     protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @NonNull Item item, @NonNull List<Object> payloads) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        onDelegateClickListener.setViewHolder(viewHolder);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onDelegateClickListener != null) {
+                    int position = viewHolder.getAdapterPosition();
+                    onDelegateClickListener.onClick(v, position);
+                }
+            }
+        };
         ContentItem contentItem = (ContentItem) item;
-        viewHolder.tvContent.setOnClickListener(onDelegateClickListener);
+        viewHolder.tvContent.setOnClickListener(onClickListener);
         viewHolder.tvContent.setText(contentItem.content != null ? contentItem.content : "Hello World!!!");
 
     }
@@ -58,7 +72,6 @@ public class ContentDelegate extends AdapterDelegate<Item> {
     }
 
 }
-
 ```
 #### Create adapter
 ```java
